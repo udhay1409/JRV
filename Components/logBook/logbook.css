@@ -1,0 +1,110 @@
+.databoxback {
+  background-color: var(--hotel-primary);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.databoxback svg {
+  color: #F5F5F5 !important;
+}
+
+.databoxmain {
+  margin-top: 1rem;
+}
+
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: var(--hotel-primary);
+  --rdp-background-color: var(--hotel-secondary);
+  margin: 0;
+}
+
+.date-btn {
+  background-color: var(--hotel-secondary) !important;
+  border-radius: 8px;
+  height: 40px;
+}
+
+.date-btn:hover {
+  background-color: var(--hotel-secondary-hover) !important;
+}
+
+.date-btn:focus {
+  outline: 2px solid var(--hotel-primary);
+  outline-offset: 2px;
+}
+
+/* Add these styles to match heights */
+.date-picker-container {
+  height: 40px;
+}
+
+.date-picker-container > * {
+  height: 100% !important;
+}
+
+/* Override any default padding */
+.date-picker-trigger {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Match input heights */
+.input-base,
+.button-base,
+.date-picker-base {
+  height: 40px !important;
+}
+
+.table-wrapper {
+  --header-height: 45px;
+  --content-spacing: 0;
+}
+
+.header-column {
+  padding: 0 12px;
+  height: var(--header-height);
+  font-weight: 600;
+  color: var(--hotel-primary-text);
+}
+
+.table-cell {
+  padding: 10px 12px;
+  height: 60px;
+}
+
+.chip {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 16px;
+}
+
+/* Add to logbook.css */
+.dialog-content {
+  max-width: 64rem;
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.items-table-header {
+  background-color: var(--hotel-primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.electricity-table-header {
+  background-color: var(--hotel-primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+}

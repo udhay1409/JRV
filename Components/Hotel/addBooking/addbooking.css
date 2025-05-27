@@ -1,0 +1,47 @@
+
+
+.drag-over {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+
+.addboookinggg .uploadingcenter {
+    text-align: -webkit-center !important;
+}
+
+.addboookinggg .uploadingcenter {
+    height: 150px;
+    /* Adjust height as necessary */
+    border-radius: 8px;
+    /* Optional: for a nicer look */
+    background-color: #f9f9f9;
+    /* Optional: background color */
+    transition: background-color 0.2s;
+    /* Smooth transition */
+}
+
+.addboookinggg .uploadingcenter:hover {
+    background-color: #e0f7fa;
+    /* Optional: change background color on hover */
+}
+
+
+
+.dahssboook{
+    border: dashed; 
+    border-radius: 15px !important;
+}
+
+.phone-input-container .react-tel-input .form-control {
+    width: 100% !important;
+}
+
+.phone-input-container .react-tel-input {
+    width: 100% !important;
+}

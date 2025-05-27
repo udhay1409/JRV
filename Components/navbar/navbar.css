@@ -1,0 +1,126 @@
+/* Global Navbar Styles */
+.navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    background: linear-gradient(180deg, rgba(34, 34, 34, 0.9) 0%, rgba(34, 34, 34, 0.5) 100%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar.scroll {
+    background: #111;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Nav Items */
+  .nav-item {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-item:hover {
+    color: #ff9800;
+  }
+  
+  .nav-item.active {
+    color: #ff9800;
+  }
+  
+  /* Dropdown Styles */
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  
+  .nav-item:hover .dropdown {
+    display: block;
+    transform: translateY(10px);
+    opacity: 1;
+  }
+  
+  .dropdown-item {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: #ff9800;
+  }
+  
+  /* Account Icon */
+  .account-icon {
+    color: white;
+    transition: color 0.3s ease;
+  }
+  
+  .account-icon:hover {
+    color: #ff9800;
+  }
+  
+  /* Mobile Menu */
+  .mobile-menu {
+    background: #111;
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-nav-item {
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  
+  .mobile-nav-item:hover {
+    color: #ff9800;
+  }
+  
+  .mobile-dropdown {
+    background-color: #222;
+    padding: 10px 20px;
+    margin-top: 5px;
+    border-radius: 8px;
+  }
+  
+  .mobile-dropdown-item {
+    padding: 10px 0;
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  .mobile-dropdown-item:hover {
+    color: #ff9800;
+  }
+  
+
+
+
+
+
+
+
+  

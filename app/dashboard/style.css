@@ -1,0 +1,120 @@
+:root{
+       /* --hotel-primary: #00109b; */
+       --hotel-primary-text: #0D0E00;
+       --hotel-primary-darkgreen: #18B754;
+       --hotel-primary-green: #25D366;
+       --hotel-primary-red: #FF0000;
+       --hotel-primary-darkred: #9E3737;
+       --hotel-primary-yellow: #FFDF00;
+       --hotel-primary-bg: #F8F8F8;
+   
+       --hotel-secondary: #E3F2FD;
+       --hotel-secondary-accent: #FFFFFF;
+       --hotel-secondary-light-grey: #D9D9D9;
+       --hotel-secondary-grey: #6E6E6E;
+}
+
+
+
+.adminLayout {
+  display: flex;
+  height: 100vh;
+  min-height: 100vh;
+}
+
+.adminLayout .mainContent {
+  flex: 1;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.adminLayout .mainContent > *:not(footer) {
+  flex: 1 0 auto;
+}
+
+.adminLayout a.a-style {
+  color: #fff !important;
+}
+
+.bgclrrr{
+  background-color: #F8F8F8 ;
+}
+
+.mainContentWrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.subdomain-layout {
+  display: block;
+  padding: 0;
+}
+
+.subdomain-layout .mainContent {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default padding from dropdown items */
+.nextui-dropdown-item {
+  padding-left: 0 !important;
+}
+
+/* Adjust pagination margins */
+.custom-pagination nav {
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* Pagination item spacing */
+.custom-pagination button {
+  min-width: 32px !important;
+  padding: 0  !important;
+  margin: 0 !important;
+}
+
+/* Status filter dropdown padding */
+.nextui-dropdown-menu {
+  padding: 0.5rem 0 !important;
+}
+
+.custom-pagination span.bg-primary {
+  background-color:var(--hotel-primary) !important;;
+  color: #fff !important;
+  opacity: 1!important;
+}
+tr th.bg-default-100 {
+  background-color: var(--hotel-primary) !important;
+  color: #FCFEFE !important;
+  
+}
+
+/* Add table row styling */
+.mainContent tr[data-slot="row"] {
+  border-bottom: 1px solid #E7E7E7;
+}
+
+/* Add this if the above selector doesn't work due to NextUI's styling */
+tr[role="row"] {
+  border-bottom: 1px solid #E7E7E7;
+}
+
+
+
+tr td[role="gridcell"] {
+  color: var(--hotel-primary-text) !important;
+  font-weight: 400 !important;
+}
+
+/* /* Style for table header cells */
+tr th[role="columnheader"] {
+  color:#FCFEFE !important;
+  font-weight: 700 !important;
+} 
+
+

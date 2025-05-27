@@ -1,0 +1,36 @@
+.databoxmain .databoxback {
+    background-color: var(--hotel-primary);
+    padding: 10px;
+    border-radius: 7px;
+}
+.databoxmain .databoxfront {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 7px;
+}
+
+.databoxmain .card-header{
+    background-color: transparent;
+    border-bottom: none
+}
+
+.databoxmain .card{
+    border-radius: 25px;
+}
+
+.databoxmain .rateincrease{
+    background-color: #D5F6E5;
+    border-radius: 15px;
+    padding: 2px;
+}
+.databoxmain .ratedecrease{
+    background-color: #FFC7C7;
+    border-radius: 15px;
+    padding: 2px;
+}
+
+
+
+.bg-greeeens{
+    background-color: #D5F6E5 !important;
+}

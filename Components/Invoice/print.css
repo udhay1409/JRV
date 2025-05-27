@@ -1,0 +1,157 @@
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 0.5cm;
+  }
+
+  /* Hide elements */
+  .print\\:hidden {
+    display: none !important;
+  }
+
+  /* Layout adjustments */
+  .print\\:p-4 {
+    padding: 1rem !important;
+  }
+
+  .print\\:p-2 {
+    padding: 0.5rem !important;
+  }
+
+  .print\\:m-0 {
+    margin: 0 !important;
+  }
+
+  .print\\:w-full {
+    width: 100% !important;
+  }
+
+  /* Typography */
+  .print\\:text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+  }
+
+  .print\\:text-xs {
+    font-size: 0.75rem !important;
+    line-height: 1rem !important;
+  }
+
+  .print\\:text-base {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
+
+  /* Colors and backgrounds */
+  .print\\:bg-white {
+    background-color: #ffffff !important;
+  }
+
+  .print\\:text-black {
+    color: #000000 !important;
+  }
+
+  .print\\:border-gray-300 {
+    border-color: #d1d5db !important;
+  }
+
+  /* Remove decorative elements */
+  .print\\:shadow-none {
+    box-shadow: none !important;
+  }
+
+  .print\\:no-gradient {
+    background-image: none !important;
+  }
+
+  /* Table adjustments */
+  .print\\:table-auto {
+    table-layout: auto !important;
+  }
+
+  .print\\:break-inside-avoid {
+    break-inside: avoid !important;
+  }
+
+  .print\\:break-after-auto {
+    break-after: auto !important;
+  }
+
+  /* Grid and flex adjustments */
+  .print\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .print\\:flex {
+    display: flex !important;
+  }
+
+  .print\\:gap-4 {
+    gap: 1rem !important;
+  }
+
+  /* Spacing */
+  .print\\:mb-4 {
+    margin-bottom: 1rem !important;
+  }
+
+  .print\\:py-1 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  /* Image dimensions */
+  .print\\:w-24 {
+    width: 6rem !important;
+  }
+
+  .print\\:h-12 {
+    height: 3rem !important;
+  }
+
+  /* Table cell adjustments */
+  .print\\:px-2 {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Fix table widths */
+  table {
+    width: 100% !important;
+    page-break-inside: auto !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  /* Ensure proper page breaks */
+  .page-break {
+    page-break-before: always !important;
+  }
+
+  /* Optimize backgrounds and colors for printing */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Ensure all content is visible */
+  .overflow-hidden {
+    overflow: visible !important;
+  }
+
+  /* Fix SVG and image rendering */
+  img, svg {
+    print-color-adjust: exact !important;
+  }
+}
