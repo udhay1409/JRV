@@ -16,26 +16,26 @@ mongoose.connection.on('disconnected', () => {
 let connection = null;
 
 const connectDb = async () => {
-  if (connection) return connection;
-
-  const uri = `${process.env.MONGO_URI}`;
-  const cleanUri = uri.replace(/\/$/, "");
-  // const fullUri = `${cleanUri}/hoteldemo?retryWrites=true&w=majority`;
-  const fullUri = `${cleanUri}/JrvMahal?retryWrites=true&w=majority`;
+  if (mongoose.connections[0].readyState) {
+    console.log("Already connected to database");
+    return;
+  }
 
   try {
-    connection = await mongoose.connect(fullUri, {
-      tls: true,
-      tlsAllowInvalidCertificates: false,
-      minPoolSize: 5,
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 15000,
-    });
+    const mongoUrl = process.env.MONGODB_URI;
+    if (!mongoUrl) {
+      throw new Error("MONGODB_URI environment variable is not set");
+    }
 
-    console.log(`Connected to database ${connection.connections[0].name}`);
-    return connection;
+    // Validate MongoDB connection string format
+    if (!mongoUrl.startsWith('mongodb://') && !mongoUrl.startsWith('mongodb+srv://')) {
+      throw new Error("Invalid MongoDB connection string format. Must start with 'mongodb://' or 'mongodb+srv://'");
+    }
+
+    await mongoose.connect(mongoUrl);
+    console.log("MongoDB connected successfully");
   } catch (error) {
-    console.error("Error connecting to database:", error);
+    console.error("Database connection error:", error);
     throw error;
   }
 };
