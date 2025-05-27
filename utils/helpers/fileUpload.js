@@ -58,39 +58,52 @@ export const saveFile = async (base64Data, hotelDb, oldLogoPath) => {
 
 export const saveToObjectStorage = async (base64Data, hotelDb, oldLogoPath) => {
   try {
-    const { Client } = await import('@replit/object-storage');
-    const client = new Client();
+    // Try Object Storage first
+    try {
+      const { Client } = await import('@replit/object-storage');
+      const client = new Client();
 
-    // Delete old logo first if using Object Storage
-    if (oldLogoPath && oldLogoPath.startsWith('https://')) {
-      const oldFileName = oldLogoPath.split('/').pop();
-      await client.delete(oldFileName);
+      // Delete old logo first if using Object Storage
+      if (oldLogoPath && oldLogoPath.startsWith('https://')) {
+        try {
+          const oldFileName = oldLogoPath.split('/').pop();
+          await client.delete(oldFileName);
+        } catch (deleteError) {
+          console.log('Could not delete old file:', deleteError.message);
+        }
+      }
+
+      // Extract mime type and base64 content
+      const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
+      if (!matches) throw new Error('Invalid base64 string');
+
+      const [, mimeType, content] = matches;
+      const extension = mimeType.split('/')[1];
+      
+      // Create filename
+      const filename = `logo-${hotelDb}-${Date.now()}.${extension}`;
+      const buffer = Buffer.from(content, 'base64');
+
+      // Upload to Object Storage
+      const result = await client.uploadFromBuffer(filename, buffer);
+      
+      if (result && result.url) {
+        console.log('New logo saved to Object Storage successfully:', filename);
+        return result.url;
+      }
+      
+      // Construct URL if not provided
+      const publicUrl = `https://objectstorage.replit.com/${filename}`;
+      console.log('New logo saved to Object Storage successfully:', filename);
+      return publicUrl;
+      
+    } catch (objectStorageError) {
+      console.log('Object Storage failed, falling back to local storage:', objectStorageError.message);
+      // Fall back to local storage
+      return await saveFile(base64Data, hotelDb, oldLogoPath);
     }
-
-    // Extract mime type and base64 content
-    const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
-    if (!matches) throw new Error('Invalid base64 string');
-
-    const [, mimeType, content] = matches;
-    const extension = mimeType.split('/')[1];
-    
-    // Create filename
-    const filename = `logo-${hotelDb}-${Date.now()}.${extension}`;
-    const buffer = Buffer.from(content, 'base64');
-
-    // Upload to Object Storage
-    const { ok, error } = await client.uploadFromBuffer(filename, buffer);
-    
-    if (!ok) {
-      throw new Error(`Object Storage upload failed: ${error}`);
-    }
-    
-    console.log('New logo saved to Object Storage successfully:', filename);
-    
-    // Return the public URL (adjust based on your Object Storage configuration)
-    return `https://your-bucket-id.objectstorage.replit.com/${filename}`;
   } catch (error) {
-    console.error('Error saving file to Object Storage:', error);
+    console.error('Error saving file:', error);
     throw error;
   }
 };
