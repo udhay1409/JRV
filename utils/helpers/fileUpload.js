@@ -1,10 +1,39 @@
 import fs from 'fs';
 import path from 'path';
 
-export const deleteFile = (logoPath) => {
+export const deleteFile = async (logoPath) => {
   try {
     if (!logoPath) return;
     
+    // Handle DigitalOcean Spaces deletion
+    if (logoPath.includes('digitaloceanspaces.com') && process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET) {
+      try {
+        const { S3Client, DeleteObjectCommand } = await import('@aws-sdk/client-s3');
+        
+        const s3Client = new S3Client({
+          endpoint: 'https://blr1.digitaloceanspaces.com',
+          region: 'blr1',
+          credentials: {
+            accessKeyId: process.env.DO_SPACES_KEY,
+            secretAccessKey: process.env.DO_SPACES_SECRET,
+          },
+        });
+
+        const key = logoPath.split('/').slice(-2).join('/'); // Extract "uploads/filename"
+        await s3Client.send(new DeleteObjectCommand({
+          Bucket: 'jrvdynamicimage',
+          Key: key,
+        }));
+        
+        console.log('Old logo deleted from DigitalOcean Spaces successfully:', logoPath);
+        return true;
+      } catch (error) {
+        console.error('Error deleting from DigitalOcean Spaces:', error);
+        throw error;
+      }
+    }
+    
+    // Handle local file deletion
     const filePath = path.join(process.cwd(), 'public', logoPath);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
@@ -58,7 +87,62 @@ export const saveFile = async (base64Data, hotelDb, oldLogoPath) => {
 
 export const saveToObjectStorage = async (base64Data, hotelDb, oldLogoPath) => {
   try {
-    // Try Object Storage first
+    // Extract mime type and base64 content
+    const matches = base64Data.match(/^data:(.+);base64,(.+)$/);
+    if (!matches) throw new Error('Invalid base64 string');
+
+    const [, mimeType, content] = matches;
+    const extension = mimeType.split('/')[1];
+    const filename = `logo-${hotelDb}-${Date.now()}.${extension}`;
+    const buffer = Buffer.from(content, 'base64');
+
+    // Try DigitalOcean Spaces first if configured
+    if (process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET) {
+      try {
+        const { S3Client, PutObjectCommand, DeleteObjectCommand } = await import('@aws-sdk/client-s3');
+        
+        const s3Client = new S3Client({
+          endpoint: 'https://blr1.digitaloceanspaces.com',
+          region: 'blr1',
+          credentials: {
+            accessKeyId: process.env.DO_SPACES_KEY,
+            secretAccessKey: process.env.DO_SPACES_SECRET,
+          },
+        });
+
+        // Delete old logo if it exists on Spaces
+        if (oldLogoPath && oldLogoPath.includes('digitaloceanspaces.com')) {
+          try {
+            const oldKey = oldLogoPath.split('/').slice(-2).join('/'); // Extract "uploads/filename"
+            await s3Client.send(new DeleteObjectCommand({
+              Bucket: 'jrvdynamicimage',
+              Key: oldKey,
+            }));
+          } catch (deleteError) {
+            console.log('Could not delete old file from Spaces:', deleteError.message);
+          }
+        }
+
+        const uploadParams = {
+          Bucket: 'jrvdynamicimage',
+          Key: `uploads/${filename}`,
+          Body: buffer,
+          ContentType: mimeType,
+          ACL: 'public-read',
+        };
+
+        await s3Client.send(new PutObjectCommand(uploadParams));
+        
+        const publicUrl = `https://jrvdynamicimage.blr1.digitaloceanspaces.com/uploads/${filename}`;
+        console.log('New logo saved to DigitalOcean Spaces successfully:', filename);
+        return publicUrl;
+        
+      } catch (spacesError) {
+        console.log('DigitalOcean Spaces failed, trying Replit Object Storage:', spacesError.message);
+      }
+    }
+
+    // Try Object Storage as fallback
     try {
       const { Client } = await import('@replit/object-storage');
       const client = new Client();

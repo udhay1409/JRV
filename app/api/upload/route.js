@@ -10,17 +10,47 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    // Try to use Replit Object Storage, fallback to local storage
+    // Generate unique filename
+    const fileName = `${Date.now()}-${file.name}`;
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+
+    // Try DigitalOcean Spaces first if configured
+    if (process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET) {
+      try {
+        const { S3Client, PutObjectCommand } = await import('@aws-sdk/client-s3');
+        
+        const s3Client = new S3Client({
+          endpoint: 'https://blr1.digitaloceanspaces.com',
+          region: 'blr1',
+          credentials: {
+            accessKeyId: process.env.DO_SPACES_KEY,
+            secretAccessKey: process.env.DO_SPACES_SECRET,
+          },
+        });
+
+        const uploadParams = {
+          Bucket: 'jrvdynamicimage',
+          Key: `uploads/${fileName}`,
+          Body: buffer,
+          ContentType: file.type,
+          ACL: 'public-read',
+        };
+
+        await s3Client.send(new PutObjectCommand(uploadParams));
+        
+        const imageUrl = `https://jrvdynamicimage.blr1.digitaloceanspaces.com/uploads/${fileName}`;
+        return NextResponse.json({ imageUrl }, { status: 200 });
+        
+      } catch (s3Error) {
+        console.log('DigitalOcean Spaces upload failed, trying Replit Object Storage:', s3Error.message);
+      }
+    }
+
+    // Try to use Replit Object Storage as fallback
     try {
       const { Client } = await import('@replit/object-storage');
       const client = new Client();
-      
-      // Generate unique filename
-      const fileName = `${Date.now()}-${file.name}`;
-      
-      // Convert file to buffer
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
       
       // Upload to Object Storage
       const result = await client.uploadFromBuffer(fileName, buffer);
